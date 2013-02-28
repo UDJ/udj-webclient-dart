@@ -1,10 +1,13 @@
 name: UDJWebClient
-description: >
-    A web client for UDJ
 version: 0.0.1
-author: Reed La Botz <reedlabotz@gmail.com>
-homepage: https://github.com/reedlabotz/udj-webclient
+description: >
+  A web client for UDJ
+authors:
+ - Reed La Botz <reedlabotz@gmail.com>
+ - J. Taylor Fairbank <jtfairbank@gmail.com>
+homepage: https://github.com/UDJ/udj-webclient-dart
 dependencies:
   browser: any
   js:
     hosted: js
+  web_ui: any
