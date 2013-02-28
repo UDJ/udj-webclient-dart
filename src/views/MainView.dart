@@ -4,6 +4,12 @@ part of udjlib;
  */
 class MainView extends CompositeView{
   final UdjApp _udjApp;
+
+  /// The login view which is shown at login and in case of reauth.
+  LoginView _login;
+  LoginState _loginState;
+  
+  /*
   
   /// The top bar which holds the library view select and search.
   TopBarView _topBar;
@@ -17,10 +23,6 @@ class MainView extends CompositeView{
   LibraryView _library;
   LibraryState _libraryState;
   
-  /// The login view which is shown at login and in case of reauth.
-  LoginView _login;
-  LoginState _loginState;
-  
   /// The player select view that is shown if no player is selected.
   PlayerSelectView _playerSelect;
   PlayerSelectState _playerSelectState;
@@ -29,19 +31,24 @@ class MainView extends CompositeView{
   PlayerCreateView _playerCreate;
   PlayerCreateState _playerCreateState;
   
+  */
+  
   /*
    * Initialize the view and create all the child views.
    */
   MainView(this._udjApp):super('all-hold'){
-    // Create the top bar
-    _topBarState = new TopBarState(_udjApp);
-    _topBar = new TopBarView(_udjApp,_topBarState);
-    addChild(_topBar);
     
     // Create the login view
     _loginState = new LoginState(_udjApp);
     _login = new LoginView(_udjApp, _loginState);
     addChild(_login);
+    
+    /*
+    
+    // Create the top bar
+    _topBarState = new TopBarState(_udjApp);
+    _topBar = new TopBarView(_udjApp,_topBarState);
+    addChild(_topBar);
     
     // Create the player select view
     _playerSelectState = new PlayerSelectState(_udjApp);
@@ -63,6 +70,8 @@ class MainView extends CompositeView{
     _library = new LibraryView(_udjApp,_libraryState);
     addChild(_library);
     
+    */
+    
     // Call [_swapLoggedInView] to get initial view setup correctly
     _chooseView();
   }
@@ -82,14 +91,18 @@ class MainView extends CompositeView{
   void _chooseView(){
     // login
     if (_udjApp.state.currentUsername.value == null) {
+      /*
       _topBar.hidden = true;
       _sideBar.hidden = true;
       _library.hidden = true;
       _playerSelectState.hidden.value = true;
       _playerCreate.hidden = true;
+      */
 
       _login.hidden = false;
     }
+    
+    /*
     
     // create a player
     else if (_udjApp.state.creatingPlayer.value) {
@@ -124,5 +137,8 @@ class MainView extends CompositeView{
       _library.hidden = false;
 
     }
+    
+    */
+    
   }
 }
