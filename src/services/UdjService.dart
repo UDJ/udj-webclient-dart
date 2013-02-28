@@ -33,7 +33,7 @@ class UdjService {
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencode');
     request.on.loadEnd.add((e){
       if(request.status==200){
-        var data = JSON.parse(request.responseText);
+        var data = parse(request.responseText);
         var token = data['ticket_hash'];
         var user_id = data['user_id'];
         session.value = new Session(token, user_id, username);
@@ -55,7 +55,7 @@ class UdjService {
     authGetRequest('/players/${position.coords.latitude}/${position.coords.longitude}',{},
       (HttpRequest req){
         if (req.status == 200) {
-          callback({'success': true, 'players': JSON.parse(req.responseText)});
+          callback({'success': true, 'players': parse(req.responseText)});
         } else {
           String error = Errors.UNKOWN;
           if (req.status == 406 && req.getResponseHeader('X-Not-Acceptable-Reason') == "bad_radius") {
@@ -75,7 +75,7 @@ class UdjService {
       {'name': search, 'max_results': Constants.MAX_RESULTS},
       (HttpRequest req) {
         if (req.status == 200) {
-          callback({'success': true, 'players': JSON.parse(req.responseText)});
+          callback({'success': true, 'players': parse(req.responseText)});
         } else {
           String error = Errors.UNKOWN;
           // no expected server errors to handle
@@ -94,7 +94,7 @@ class UdjService {
       if (request.status == 201) {
         callback({
           'success': true,
-          'playerData': JSON.parse(request.responseText)
+          'playerData': parse(request.responseText)
         });
       
       } else {
@@ -213,7 +213,7 @@ class UdjService {
   void joinProtectedPlayer(String playerID, String password,  Function callback) {
     String url = '/players/$playerID/users/user';
     String contentType = 'application/x-www-form-urlencode';
-    String query = JSON.stringify( {} );
+    String query = stringify( {} );
     
     // copied from authPutRequest, except *
     HttpRequest request;
@@ -281,7 +281,7 @@ class UdjService {
   void getCurrentUsers(String playerID, Function callback) {
     authGetRequest('/udj/0_6/players/$playerID/users', {}, (HttpRequest req) {
       if (req.status == 200) {
-        callback({'success': true, 'users': JSON.parse(req.responseText)});
+        callback({'success': true, 'users': parse(req.responseText)});
       } else {
         String error = Errors.UNKOWN;
         callback({'success': false, 'error': error}); // TODO: make a function to format this
@@ -293,7 +293,7 @@ class UdjService {
   void getSearchLibrary(String playerId, String query, Function callback){
     authGetRequest('/players/${playerId}/available_music',
         {'max_randoms':'50','query':query}, (HttpRequest request){
-          List data = JSON.parse(request.responseText);
+          List data = parse(request.responseText);
           callback({'success':true,'data':data});
         });
   }
@@ -301,7 +301,7 @@ class UdjService {
   void getRecentLibrary(String playerId, Function callback){
     authGetRequest('/players/${playerId}/recently_played',
         {'max_randoms':'50'}, (HttpRequest request){
-          List data = JSON.parse(request.responseText);
+          List data = parse(request.responseText);
           data = data.map((i) => i['song']);
           callback({'success':true,'data':data});
         });
@@ -310,7 +310,7 @@ class UdjService {
   void getRandomLibrary(String playerId, Function callback){
     authGetRequest('/players/${playerId}/available_music/random_songs', 
         {'max_randoms':'50'}, (HttpRequest request){
-          List data = JSON.parse(request.responseText);
+          List data = parse(request.responseText);
           callback({'success':true,'data':data});
         });
   }
@@ -320,7 +320,7 @@ class UdjService {
   
   void pollPlayer(String playerId, Function callback){
     authGetRequest('/players/${playerId}/active_playlist',{},(HttpRequest request){
-      callback({'success':true,'data':JSON.parse(request.responseText)});
+      callback({'success':true,'data':parse(request.responseText)});
     });
   }
   
@@ -375,7 +375,7 @@ class UdjService {
    * A PUT request with auth token and text/json Content-type.
    */
   void authPutRequestJson(String url, Map data, Function callback) {
-    authPutRequest(url, JSON.stringify(data), callback, 'text/json');
+    authPutRequest(url, stringify(data), callback, 'text/json');
   }
 
   /**
