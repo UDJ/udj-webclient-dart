@@ -5,27 +5,20 @@ import 'dart:isolate';
 import 'dart:json';
 import 'dart:uri';
 
-import 'lib/framework.dart';
-import 'lib/ui/base/base.dart';
-import 'lib/ui/view/view.dart';
-import 'lib/ui/observable/observable.dart';
-import 'lib/ui/touch/touch.dart';
-import 'lib/ui/util/utilslib.dart';
-import 'lib/requestHelper.dart';
 import 'package:js/js.dart' as js;
 
 part 'UdjConstants.dart';
-part 'services/OfflineSyncService.dart';
-part 'services/PollService.dart';
+//part 'services/OfflineSyncService.dart';
+//part 'services/PollService.dart';
 
 // app level 
-part 'UdjApp.dart';
-part 'services/UdjService.dart';
-part 'UdjStructs.dart';
+//part 'UdjApp.dart';
+//part 'services/UdjService.dart';
+//part 'UdjStructs.dart';
 
 // views
-part 'views/MainView.dart';
-part 'views/LoginView.dart';
+//part 'views/MainView.dart';
+//part 'views/LoginView.dart';
 /*
 part 'views/TopBarView.dart';
 part 'views/PlayerCreateView.dart';
@@ -38,8 +31,8 @@ part 'views/AdminUserView.dart';
 */
 
 // view models
-part 'view_models/UdjState.dart';
-part 'view_models/LoginState.dart';
+//part 'view_models/UdjState.dart';
+//part 'view_models/LoginState.dart';
 /*
 part 'view_models/PlayerCreateState.dart';
 part 'view_models/PlayerSelectState.dart';

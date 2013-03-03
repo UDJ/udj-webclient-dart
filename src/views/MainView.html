@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>MainView</title>
+  </head>
+ 
+  <body>   
+  
+  <element name="x-main-view" extends="div">
+    <template>
+      <span>{{msg}}</span>
+    </template>
+    
+    <script type="application/dart">
+      import 'package:web_ui/web_ui.dart';
+
+      class MainView extends WebComponent {
+        String msg = "Hello world! I am UDJ =)";
+      }
+    </script>
+    
+  </element>
+  
+  </body>
+</html>
