@@ -3,61 +3,60 @@ part of udjlib;
 /**
  * The global state object.
  */
-class UdjState extends UIState {
-  final ObservableValue<String> currentUsername;
+class UdjState {
+  String currentUsername;
   
-  final ObservableValue<String> playerState;
+  String playerState;
   
-  final ObservableValue<int> playerVolume;
+  int playerVolume;
   
-  final ObservableValue<Player> currentPlayer;
+  Player currentPlayer;
   
-  final ObservableValue<Player> localPlayer;
+  Player localPlayer;
   
-  final ObservableValue<QueueSong> nowPlaying;
+  QueueSong nowPlaying;
   
-  final ObservableValue<List<QueueSong>> queue;
+  List<QueueSong> queue;
   
-  final ObservableValue<String> libraryView;
+  String libraryView;
   
-  final ObservableValue<String> searchQuery;
+  String searchQuery;
   
-  final ObservableList<Song> librarySongs;
+  Song librarySongs;
   
-  final ObservableValue<bool> ready;
+  bool ready;
   
-  final ObservableValue<bool> creatingPlayer;
+  bool creatingPlayer;
   
   final UdjApp _udjApp;
       
   UdjState(this._udjApp): 
-    super(), 
-    currentUsername = new ObservableValue<String>(null),
-    playerState = new ObservableValue<String>(null),
-    playerVolume = new ObservableValue<int>(null),
-    currentPlayer = new ObservableValue<Player>(null),
-    localPlayer = new ObservableValue<Player>(null),
-    nowPlaying = new ObservableValue<QueueSong>(null),
-    queue = new ObservableValue<List<QueueSong>>(null),
-    libraryView = new ObservableValue<String>(null),
-    searchQuery = new ObservableValue<String>(null),
-    librarySongs = new ObservableList<Song>(null),
-    ready = new ObservableValue<bool>(false),
-    creatingPlayer = new ObservableValue<bool>(false);
+    currentUsername = null,
+    playerState = null,
+    playerVolume = null,
+    currentPlayer = null,
+    localPlayer = null,
+    nowPlaying = null,
+    queue = null,
+    libraryView = null,
+    searchQuery = null,
+    librarySongs = null,
+    ready = false,
+    creatingPlayer = false;
   
   
   // mulit view / state utilities
     
   // TODO: old code? remove?
   void voteSong(String action,String songId){
-    _udjApp.service.voteSong(action,currentPlayer.value.id,songId,(res){
+    _udjApp.service.voteSong(action,currentPlayer.id,songId,(res){
       
     });
   }
   
   // TODO: old code? remove?
   void addSong(String songId){
-    _udjApp.service.addSong(currentPlayer.value.id,songId,(res){
+    _udjApp.service.addSong(currentPlayer.id,songId,(res){
       
     });
   }
@@ -66,14 +65,14 @@ class UdjState extends UIState {
    * Make sure the user is in a player and is an admin of that player.
    */
   bool canAdmin() {
-    Player p = currentPlayer.value;
-    String name = currentUsername.value;
+    Player p = currentPlayer;
+    String name = currentUsername;
     
     if (p == null) {
       return false;
     }
     
-    bool isAdmin = p.admins.some((User admin) {
+    bool isAdmin = p.admins.any((User admin) {
       return admin.username == name;
     });
     bool isOwner = p.owner.username == name;

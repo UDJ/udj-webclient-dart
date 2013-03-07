@@ -7,14 +7,16 @@ import 'dart:uri';
 
 import 'package:js/js.dart' as js;
 
+import 'lib/requestHelper.dart';
+
 part 'UdjConstants.dart';
 //part 'services/OfflineSyncService.dart';
 //part 'services/PollService.dart';
 
 // app level 
-//part 'UdjApp.dart';
-//part 'services/UdjService.dart';
-//part 'UdjStructs.dart';
+part 'UdjApp.dart';
+part 'services/UdjService.dart';
+part 'UdjStructs.dart';
 
 // views
 //part 'views/MainView.dart';
@@ -31,8 +33,8 @@ part 'views/AdminUserView.dart';
 */
 
 // view models
-//part 'view_models/UdjState.dart';
-part 'view_models/LoginState.dart';
+part 'view_models/UdjState.dart';
+// part 'view_models/LoginState.dart';
 /*
 part 'view_models/PlayerCreateState.dart';
 part 'view_models/PlayerSelectState.dart';

@@ -8,7 +8,7 @@ part of udjlib;
  */
 class UdjService {
   /// The session struct that holds current session information
-  final ObservableValue<Session> session;
+  Session session;
   
   /// callback to be called if an unauthorized call happens
   final Function _loginNeeded;
@@ -17,7 +17,8 @@ class UdjService {
    * Basic constructor. [_loginNeeded] should be a callback function 
    * that prompts for user to authenticate.
    */
-  UdjService(this._loginNeeded):session = new ObservableValue<Session>(null);
+  UdjService(this._loginNeeded):
+    session = null;
   
   // Authentication
   // --------------------------------------------------------------------------
@@ -31,12 +32,12 @@ class UdjService {
     String data;
     data = RequestHelper.encodeMap({'username':username,'password':password});
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencode');
-    request.on.loadEnd.add((e){
+    request.onLoadEnd.listen((e){
       if(request.status==200){
         var data = parse(request.responseText);
         var token = data['ticket_hash'];
         var user_id = data['user_id'];
-        session.value = new Session(token, user_id, username);
+        session = new Session(token, user_id, username);
         callback(true);
       }else{
         callback(false);
@@ -405,7 +406,7 @@ class UdjService {
    * A request with auth token.
    */
   void authRequest(HttpRequest request,String body,Function callback){
-    request.on.loadEnd.add((e){
+    request.onLoadEnd.listen((e){
       // Check that we don't have to re-auth
       if(request.status == 401){
         _loginNeeded();
@@ -413,7 +414,7 @@ class UdjService {
         callback(request);
       }
     });
-    request.setRequestHeader('X-Udj-Ticket-Hash',session.value.ticketHash);
+    request.setRequestHeader('X-Udj-Ticket-Hash',session.ticketHash);
     if(body == null){
       request.send();
     }else{

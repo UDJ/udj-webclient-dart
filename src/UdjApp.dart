@@ -5,86 +5,52 @@ part of udjlib;
  * to most objects, so it has access to some globals [state] and 
  * [service] that will be access by many different parts.
  */
-class UdjApp extends App{
+class UdjApp {
   /// The global state object
   UdjState state;
   
   /// the global service object
   UdjService service;
   
-  /// Track if the page has loaded
-  bool onLoadFired;
-  bool constructorFired;
-  
   /// The main view
-  MainView _mainView;
+  Element _mainView;
   
   /// Service that keeps ofline in sync
-  OfflineSyncService _offlineSync;
+  // OfflineSyncService _offlineSync;
   
   /// Service to poll the server for changes to queue and now playing
-  PollService _pollService;
+  // PollService _pollService;
   
-  UdjApp():super(), 
-    onLoadFired = false,
-    constructorFired = false
- {
-    state = new UdjState(this);
+  UdjApp() {
+    // state = new UdjState(this);
     service = new UdjService(_loginNeeded);
-    _offlineSync = new OfflineSyncService(this,service);
-    _pollService = new PollService(this);
-    setupApp();
-  }
-  
-  void setupApp(){
-    if (onLoadFired && state != null) {
-      render();
-    }
-  }
-  
-  void onLoad() {
-    onLoadFired = true;
-    super.onLoad();
-    setupApp();
-  }
-
-  
-  void render(){
-    _mainView = new MainView(this);
     
-    if (state.ready.value == true) {
-      _showApp();
-      
-    } else {
-      _mainView.watch(state.ready, (e) {
-        if (state.ready.value == true) {
-          _showApp();
-        }
-      });
-      
-    }
+//    _offlineSync = new OfflineSyncService(this,service);
+//    _pollService = new PollService(this);
+    
+    document.body.onLoad.listen(_setup);
   }
   
-  void _showApp() {
-    _mainView.addToDocument(document.body);
-    _pollService.start();
-    eraseSplashScreen();
+  void _setup(Event e){
+    _mainView = new Element.html('<div is="x-main-view"></div>');
+    //_pollService.start();
+    document.body.append(_mainView);
   }
   
   void pollPlayer(Timer t){
-    if(state.currentPlayer.value != null){
-      service.pollPlayer(state.currentPlayer.value.id,(Map data){
+    if(state.currentPlayer != null){
+      service.pollPlayer(state.currentPlayer.id,(Map data){
         if(data['success']){
-          state.playerState.value = data['data']['state'];
-          state.playerVolume.value = data['data']['volume'];
+          state.playerState = data['data']['state'];
+          state.playerVolume = data['data']['volume'];
           if(!data['data']['current_song'].isEmpty){
-            state.nowPlaying.value = new QueueSong.fromJson(data['data']['current_song']);
+            state.nowPlaying = new QueueSong.fromJson(data['data']['current_song']);
           }
           List queue = new List<QueueSong>();
           for(var s in data['data']['active_playlist']){
             queue.add(new QueueSong.fromJson(s));
           }
-          state.queue.value = queue;
+          state.queue = queue;
         }
       });
     }
@@ -96,6 +62,6 @@ class UdjApp extends App{
    * the login screen to be displayed.
    */
   void _loginNeeded(){
-    state.currentUsername.value = null;
+    state.currentUsername = null;
   }
 }

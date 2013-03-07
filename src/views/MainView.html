@@ -11,7 +11,7 @@
   
   <element name="x-main-view" extends="div">
     <template>
-      <div is="x-login-view"></div>
+      <span>{{msg}}</span>
     </template>
     
     <script type="application/dart">
@@ -19,8 +19,6 @@
 
       class MainView extends WebComponent {
         String msg = "Hello world! I am UDJ =)";
-        
-        
       }
     </script>
     
