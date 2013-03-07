@@ -9,14 +9,48 @@
   
   <element name="x-login-view" extends="div">
     <template>
-      <span>{{msg}}</span>
+      <div class="container">
+        <div class="row">
+          <div class="span4 offset4 loggin-box">
+            <form class="well loggin-box-inner">
+              <img src="assets/img/logo-big.png" style="width: 96px; height: 96px;">
+              <h2>UDJ</h2>
+              <div class="alert alert-error login-error" style="display:none;">{{_state.errorMessage}}</div>
+              <input type="text" bind-value="_username" placeholder="Username" class="input input-medium"><br>
+              <input type="password" bind-value="_password" placeholder="Password" class="input input-medium"><br>
+              <button on-click="_submit($event)" type="submit" class="btn btn-primary">Login</button>
+              <br>
+              <br>
+              <p>
+                <a href="https://www.udjplayer.com/recover/">I forgot my username or password.</a><br>
+                <a href="https://www.udjplayer.com/registration/register/">Don't have an account? Create one.</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
     </template>
     
     <script type="application/dart">
+      import 'dart:html';
       import 'package:web_ui/web_ui.dart';
+      import '../udjlib.dart';
 
       class LoginView extends WebComponent {
-        String msg = "Hello from Login!";
+        // final UdjApp _udjApp;
+        LoginState _state;
+        String _username;
+        String _password;
+        
+        LoginView(this._state);
+        
+        // Events
+        // ------------------------------------------------------------------
+  
+        void _submit(Event e){
+          e.preventDefault();
+          _state.login(_username, _password);
+        }
       }
     </script>
     
