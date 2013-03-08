@@ -2,7 +2,7 @@ library udjlib;
 import 'dart:async';
 import 'dart:html';
 import 'dart:isolate';
-import 'dart:json';
+import 'dart:json' as JSON;
 import 'dart:uri';
 
 import 'package:js/js.dart' as js;
@@ -11,7 +11,7 @@ import 'package:web_ui/web_ui.dart';
 import 'lib/requestHelper.dart';
 
 part 'UdjConstants.dart';
-//part 'services/OfflineSyncService.dart';
+part 'services/OfflineSyncService.dart';
 //part 'services/PollService.dart';
 
 // app level 

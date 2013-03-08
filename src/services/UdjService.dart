@@ -8,7 +8,12 @@ part of udjlib;
  */
 class UdjService {
   /// The session struct that holds current session information
-  Session session;
+  Session _session;
+  get session => _session;
+  set session(Session val) {
+    _session = val;
+    dispatch();
+  }
   
   /// callback to be called if an unauthorized call happens
   final Function _loginNeeded;
@@ -18,7 +23,7 @@ class UdjService {
    * that prompts for user to authenticate.
    */
   UdjService(this._loginNeeded):
-    session = null;
+    _session = null;
   
   // Authentication
   // --------------------------------------------------------------------------
@@ -34,7 +39,7 @@ class UdjService {
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencode');
     request.onLoadEnd.listen((e){
       if(request.status==200){
-        var data = parse(request.responseText);
+        var data = JSON.parse(request.responseText);
         var token = data['ticket_hash'];
         var user_id = data['user_id'];
         session = new Session(token, user_id, username);
@@ -56,7 +61,7 @@ class UdjService {
     authGetRequest('/players/${position.coords.latitude}/${position.coords.longitude}',{},
       (HttpRequest req){
         if (req.status == 200) {
-          callback({'success': true, 'players': parse(req.responseText)});
+          callback({'success': true, 'players': JSON.parse(req.responseText)});
         } else {
           String error = Errors.UNKOWN;
           if (req.status == 406 && req.getResponseHeader('X-Not-Acceptable-Reason') == "bad_radius") {
@@ -76,7 +81,7 @@ class UdjService {
       {'name': search, 'max_results': Constants.MAX_RESULTS},
       (HttpRequest req) {
         if (req.status == 200) {
-          callback({'success': true, 'players': parse(req.responseText)});
+          callback({'success': true, 'players': JSON.parse(req.responseText)});
         } else {
           String error = Errors.UNKOWN;
           // no expected server errors to handle
@@ -95,7 +100,7 @@ class UdjService {
       if (request.status == 201) {
         callback({
           'success': true,
-          'playerData': parse(request.responseText)
+          'playerData': JSON.parse(request.responseText)
         });
       
       } else {
@@ -282,7 +287,7 @@ class UdjService {
   void getCurrentUsers(String playerID, Function callback) {
     authGetRequest('/udj/0_6/players/$playerID/users', {}, (HttpRequest req) {
       if (req.status == 200) {
-        callback({'success': true, 'users': parse(req.responseText)});
+        callback({'success': true, 'users': JSON.parse(req.responseText)});
       } else {
         String error = Errors.UNKOWN;
         callback({'success': false, 'error': error}); // TODO: make a function to format this
@@ -294,7 +299,7 @@ class UdjService {
   void getSearchLibrary(String playerId, String query, Function callback){
     authGetRequest('/players/${playerId}/available_music',
         {'max_randoms':'50','query':query}, (HttpRequest request){
-          List data = parse(request.responseText);
+          List data = JSON.parse(request.responseText);
           callback({'success':true,'data':data});
         });
   }
@@ -302,7 +307,7 @@ class UdjService {
   void getRecentLibrary(String playerId, Function callback){
     authGetRequest('/players/${playerId}/recently_played',
         {'max_randoms':'50'}, (HttpRequest request){
-          List data = parse(request.responseText);
+          List data = JSON.parse(request.responseText);
           data = data.map((i) => i['song']);
           callback({'success':true,'data':data});
         });
@@ -311,7 +316,7 @@ class UdjService {
   void getRandomLibrary(String playerId, Function callback){
     authGetRequest('/players/${playerId}/available_music/random_songs', 
         {'max_randoms':'50'}, (HttpRequest request){
-          List data = parse(request.responseText);
+          List data = JSON.parse(request.responseText);
           callback({'success':true,'data':data});
         });
   }
@@ -321,7 +326,7 @@ class UdjService {
   
   void pollPlayer(String playerId, Function callback){
     authGetRequest('/players/${playerId}/active_playlist',{},(HttpRequest request){
-      callback({'success':true,'data':parse(request.responseText)});
+      callback({'success':true,'data':JSON.parse(request.responseText)});
     });
   }
   

@@ -13,16 +13,16 @@ class UdjApp {
   UdjService service;
   
   /// Service that keeps ofline in sync
-  // OfflineSyncService _offlineSync;
+  OfflineSyncService _offlineSync;
   
   /// Service to poll the server for changes to queue and now playing
   // PollService _pollService;
   
   UdjApp() {
     state = new UdjState(this);
-    service = new UdjService(_loginNeeded);
     
-//    _offlineSync = new OfflineSyncService(this,service);
+    service = new UdjService(_loginNeeded);
+    _offlineSync = new OfflineSyncService(this,service);
 //    _pollService = new PollService(this);
   }
   

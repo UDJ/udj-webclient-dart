@@ -15,7 +15,7 @@
       <div id="udj-login" is="x-login-view"></div>
       <div id="udj-player-select" is="x-player-select-view"></div>
     </template>
-    
+
     <script type="application/dart">
       import 'dart:html';
       import 'package:web_ui/web_ui.dart';
@@ -45,8 +45,14 @@
           watch(() => udj.state.currentPlayer, _chooseView);
           watch(() => udj.state.creatingPlayer, _chooseView);
           
-          // set initial state
-          _chooseView(null);  
+          // set initial state once the app loads
+          print(udj.state.ready);
+          if (udj.state.ready) {
+            _chooseView(null);
+            // is this ever the case?
+          } else {
+            watch(() => udj.state.ready, _chooseView);
+          }
         }
 
    void _chooseView(_) {

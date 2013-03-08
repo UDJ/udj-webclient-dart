@@ -39,7 +39,12 @@ class UdjState {
   
   Song librarySongs;
   
-  bool ready;
+  bool _ready;
+  get ready => _ready;
+  set ready(bool val) {
+    _ready = val;
+    dispatch();
+  }
   
   bool _creatingPlayer;
   get creatingPlayer => _creatingPlayer;
@@ -61,7 +66,7 @@ class UdjState {
     libraryView = null,
     searchQuery = null,
     librarySongs = null,
-    ready = false,
+    _ready = false,
     _creatingPlayer = false;
   
   // mulit view / state utilities
