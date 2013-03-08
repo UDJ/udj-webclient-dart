@@ -11,14 +11,15 @@
   
   <element name="x-main-view" extends="div">
     <template>
-      <span>{{msg}}</span>
+      <h1>Fuck</h1>
+      <span>{{udj.msg}}</span>
     </template>
     
     <script type="application/dart">
       import 'package:web_ui/web_ui.dart';
 
       class MainView extends WebComponent {
-        String msg = "Hello world! I am UDJ =)";
+        var udj;
       }
     </script>
     

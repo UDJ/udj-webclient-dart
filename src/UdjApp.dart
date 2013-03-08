@@ -12,8 +12,8 @@ class UdjApp {
   /// the global service object
   UdjService service;
   
-  /// The main view
-  Element _mainView;
+  // variable for proof of concept
+  String msg = "yes!";
   
   /// Service that keeps ofline in sync
   // OfflineSyncService _offlineSync;
@@ -27,14 +27,6 @@ class UdjApp {
     
 //    _offlineSync = new OfflineSyncService(this,service);
 //    _pollService = new PollService(this);
-    
-    document.body.onLoad.listen(_setup);
-  }
-  
-  void _setup(Event e){
-    _mainView = new Element.html('<div is="x-main-view"></div>');
-    //_pollService.start();
-    document.body.append(_mainView);
   }
   
   void pollPlayer(Timer t){
