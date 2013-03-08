@@ -29,7 +29,6 @@ class PlayerSelectState {
     players = null,
     prevPlayer = null,
     loading = false,
-    hidden = true,
     errorMessage = null;
   
   // Methods

@@ -41,9 +41,9 @@
           _playerSelectView.setup(udj, _playerSelectState);
           
           // watchers to change state
-          watch(udj.state.currentUsername, _chooseView);
-          watch(udj.state.currentPlayer, _chooseView);
-          watch(udj.state.creatingPlayer, _chooseView); 
+          watch(() => udj.state.currentUsername, _chooseView);
+          watch(() => udj.state.currentPlayer, _chooseView);
+          watch(() => udj.state.creatingPlayer, _chooseView);
           
           // set initial state
           _chooseView(null);  
