@@ -12,7 +12,7 @@ import 'lib/requestHelper.dart';
 
 part 'UdjConstants.dart';
 part 'services/OfflineSyncService.dart';
-//part 'services/PollService.dart';
+part 'services/PollService.dart';
 
 // app level 
 part 'UdjApp.dart';

@@ -7,14 +7,15 @@ part of udjlib;
  * Service that will get updates from the server.
  */
 class PollService {
-  final UdjApp _udjApp;
+  // a function that performs the poll
+  var _poll;
   
   Timer _timer;
   
   // Constructor
   // --------------------------------------------------------------------------
   
-  PollService(this._udjApp){
+  PollService(this._poll){
     
   }
   
@@ -24,12 +25,12 @@ class PollService {
   /**
    * Starts polling the server.
    * 
-   * UdjApp.pollPlayer must have a Timer paramater since Timer.repeating
+   * The _poll function must have a Timer paramater since Timer.repeating
    * requires a callback with that parameter.
    */
-  void start(){
-    new Timer.repeating(Constants.POLL_INTERVAL,_udjApp.pollPlayer);
-    _udjApp.pollPlayer(null);
+  void start(_){
+    _timer = new Timer.repeating(new Duration(seconds: Constants.POLL_INTERVAL), _poll);
+    _poll(null);
   }
   
   /**
