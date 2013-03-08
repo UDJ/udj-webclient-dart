@@ -5,6 +5,7 @@
     <title>MainView</title>
     
     <link href="LoginView.html" rel="components">
+    <link href="PlayerSelectView.html" rel="components">
   </head>
  
   <body>   
@@ -12,6 +13,7 @@
   <element name="x-main-view" extends="div">
     <template>
       <div id="udj-login" is="x-login-view"></div>
+      <div id="udj-player-select" is="x-player-select-view"></div>
     </template>
     
     <script type="application/dart">
@@ -23,13 +25,90 @@
       class MainView extends WebComponent {
         UdjApp udj;
         
-        LoginState loginState;
+        LoginState _loginState;
+        var _loginView;
+        
+        PlayerSelectState _playerSelectState;
+        var _playerSelectView;
         
         void inserted() {
-          var loginView = document.query("#udj-login").xtag;
-          loginView.setup(udj, new LoginState(udj));
+          _loginState = new LoginState(udj);
+          _loginView = document.query("#udj-login").xtag;
+          _loginView.setup(udj, _loginState);
+          
+          _playerSelectState = new PlayerSelectState(udj);
+          _playerSelectView = document.query("#udj-player-select").xtag;
+          _playerSelectView.setup(udj, _playerSelectState);
+          
+          // watchers to change state
+          watch(udj.state.currentUsername, _chooseView);
+          watch(udj.state.currentPlayer, _chooseView);
+          watch(udj.state.creatingPlayer, _chooseView); 
+          
+          // set initial state
+          _chooseView(null);  
         }
-      }
+
+   void _chooseView(_) {
+    // login
+    if (udj.state.currentUsername == null) {
+      _playerSelectView.hidden = true;
+      /*
+      _topBar.hidden = true;
+      _sideBar.hidden = true;
+      _library.hidden = true;
+      _playerCreate.hidden = true;
+      */
+
+      _loginView.hidden = false;
+    }
+    
+    /*
+    
+    // create a player
+    else if (_udjApp.state.creatingPlayer.value) {
+      _topBar.hidden = true;
+      _sideBar.hidden = true;
+      _library.hidden = true;
+      _playerSelectState.hidden.value = true;
+      _login.hidden = true;
+      
+      _playerCreate.hidden = false;
+    }
+    
+    */
+    
+    // choose a player
+    else if (udj.state.currentPlayer == null) {
+      _loginView.hidden = true;
+      /*
+      _topBar.hidden = true;
+      _sideBar.hidden = true;
+      _library.hidden = true;
+      _playerCreate.hidden = true;
+      */
+      
+      _playerSelectView.hidden = false;
+    }
+    
+    /*
+    
+    // use udj
+    else {
+      _login.hidden = true;
+      _playerSelectState.hidden.value = true;
+      _playerCreate.hidden = true;
+      
+      _topBar.hidden = false;
+      _sideBar.hidden = false;
+      _library.hidden = false;
+
+    }
+    
+    */
+    
+  }
+}
     </script>
     
   </element>

@@ -17,7 +17,6 @@ class PlayerSelectState {
   List<Player> players;
   Player prevPlayer;
   bool loading;
-  bool hidden;
   String errorMessage;
   
   // Constructors

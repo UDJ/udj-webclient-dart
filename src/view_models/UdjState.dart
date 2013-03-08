@@ -4,13 +4,28 @@ part of udjlib;
  * The global state object.
  */
 class UdjState {
-  String currentUsername;
+  String _currentUsername;
+  get currentUsername => _currentUsername;
+  set currentUsername(String val) {
+    _currentUsername = val;
+    dispatch();
+  }
   
-  String playerState;
+  String _playerState;
+  get playerState => _playerState;
+  set playerState(String val) {
+    _playerState = val;
+    dispatch();
+  }
   
   int playerVolume;
   
-  Player currentPlayer;
+  Player _currentPlayer;
+  get currentPlayer => _currentPlayer;
+  set currentPlayer(Player val) {
+    _currentPlayer = val;
+    dispatch();
+  }
   
   Player localPlayer;
   
@@ -26,15 +41,20 @@ class UdjState {
   
   bool ready;
   
-  bool creatingPlayer;
+  bool _creatingPlayer;
+  get creatingPlayer => _creatingPlayer;
+  set creatingPlayer(bool val) {
+    _creatingPlayer = val;
+    dispatch();
+  }
   
   final UdjApp _udjApp;
       
   UdjState(this._udjApp): 
-    currentUsername = null,
-    playerState = null,
+    _currentUsername = null,
+    _playerState = null,
     playerVolume = null,
-    currentPlayer = null,
+    _currentPlayer = null,
     localPlayer = null,
     nowPlaying = null,
     queue = null,
@@ -42,8 +62,7 @@ class UdjState {
     searchQuery = null,
     librarySongs = null,
     ready = false,
-    creatingPlayer = false;
-  
+    _creatingPlayer = false;
   
   // mulit view / state utilities
     

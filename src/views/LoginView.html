@@ -9,6 +9,7 @@
   
   <element name="x-login-view" extends="div">
     <template>
+      <template if="!hidden">
       <div class="container">
         <div class="row">
           <div class="span4 offset4 loggin-box">
@@ -31,6 +32,7 @@
           </div>
         </div>
       </div>
+      </template>
     </template>
     
     <script type="application/dart">
@@ -41,6 +43,7 @@
       class LoginView extends WebComponent {
         UdjApp udj;
         LoginState state;
+        bool hidden = true;
         String _username = "";
         String _password = "";
         

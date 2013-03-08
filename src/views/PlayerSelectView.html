@@ -9,12 +9,10 @@
     
   <element name="x-player-select-view" extends="div">
     <template>
+      <template if="!hidden">
+        <span>I am playerSelect</span>
       
-      
-      <span>I am playerSelect</span>
-      
-      
-      
+      </template>
     </template>    
     
     
@@ -25,6 +23,9 @@
       
       class PlayerSelectView extends WebComponent {
         UdjApp udj;
+        
+        bool hidden = true;
+        
         PlayerSelectState state;
         
         
