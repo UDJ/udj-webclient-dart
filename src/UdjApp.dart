@@ -12,9 +12,6 @@ class UdjApp {
   /// the global service object
   UdjService service;
   
-  // variable for proof of concept
-  String msg = "yes!";
-  
   /// Service that keeps ofline in sync
   // OfflineSyncService _offlineSync;
   

@@ -34,7 +34,7 @@ part 'views/AdminUserView.dart';
 
 // view models
 part 'view_models/UdjState.dart';
-// part 'view_models/LoginState.dart';
+part 'view_models/LoginState.dart';
 /*
 part 'view_models/PlayerCreateState.dart';
 part 'view_models/PlayerSelectState.dart';

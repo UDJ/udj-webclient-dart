@@ -11,15 +11,24 @@
   
   <element name="x-main-view" extends="div">
     <template>
-      <h1>Fuck</h1>
-      <span>{{udj.msg}}</span>
+      <div is="x-login-view" udj="{{udj}}" state="{{loginState}}"></div>
     </template>
     
     <script type="application/dart">
+      import 'dart:html';
       import 'package:web_ui/web_ui.dart';
+      
+      import '../udjlib.dart';
 
       class MainView extends WebComponent {
         var udj;
+        
+        var login;
+        var loginState;
+        
+        void created() {
+          loginState = new LoginState(udj);
+        }
       }
     </script>
     
