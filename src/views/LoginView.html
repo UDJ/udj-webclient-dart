@@ -15,7 +15,9 @@
             <form class="well loggin-box-inner">
               <img src="../assets/img/logo-big.png" style="width: 96px; height: 96px;">
               <h2>UDJ</h2>
-              <div class="alert alert-error login-error" style="display:none;">{{state.errorMessage}}</div>
+              <template if="state.errorMessage != null">
+                <div class="alert alert-error login-error">{{state.errorMessage}}</div>
+              </template>
               <input type="text" bind-value="_username" placeholder="Username" class="input input-medium"><br>
               <input type="password" bind-value="_password" placeholder="Password" class="input input-medium"><br>
               <button on-click="_submit($event)" type="submit" class="btn btn-primary">Login</button>
@@ -41,6 +43,11 @@
         LoginState state;
         String _username = "";
         String _password = "";
+        
+        void setup(UdjApp udj, LoginState state) {
+          this.udj = udj;
+          this.state = state;
+        }
                 
         // Events
         // ------------------------------------------------------------------

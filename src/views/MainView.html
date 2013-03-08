@@ -11,7 +11,7 @@
   
   <element name="x-main-view" extends="div">
     <template>
-      <div is="x-login-view" udj="{{udj}}" state="{{loginState}}"></div>
+      <div id="udj-login" is="x-login-view"></div>
     </template>
     
     <script type="application/dart">
@@ -21,13 +21,13 @@
       import '../udjlib.dart';
 
       class MainView extends WebComponent {
-        var udj;
+        UdjApp udj;
         
-        var login;
-        var loginState;
+        LoginState loginState;
         
-        void created() {
-          loginState = new LoginState(udj);
+        void inserted() {
+          var loginView = document.query("#udj-login").xtag;
+          loginView.setup(udj, new LoginState(udj));
         }
       }
     </script>

@@ -19,7 +19,7 @@ class UdjApp {
   // PollService _pollService;
   
   UdjApp() {
-    // state = new UdjState(this);
+    state = new UdjState(this);
     service = new UdjService(_loginNeeded);
     
 //    _offlineSync = new OfflineSyncService(this,service);
