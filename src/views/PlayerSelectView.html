@@ -10,8 +10,58 @@
   <element name="x-player-select-view" extends="div">
     <template>
       <template if="!hidden">
-        <span>I am playerSelect</span>
-      
+        <div class="row">
+          <div class="span6 offset3">
+            <button type="button" id="player-select-close" class="close" aria-hidden="true">&times;</button>
+            <h3>Select Player</h3>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="span6 offset3">
+            <div class="player-select-actionbar">
+              <button type="button" id="player-select-create">Create</button>
+              <form id="player-select-search" on-submit="_searchFormSubmit($event)" class="player-select-search form-search">
+                <div class="input-append">
+                  <input type="text" id="player-select-search-input" class="search-query span2" placeholder="Search">
+                  <button type="submit" class="btn">
+                    <i class="icon-search"></i>
+                  </button>
+                </div>
+              </form>
+              <template if="state.errorMessage != null">
+                <div class="alert alert-error login-error">{{state.errorMessage}}</div>
+              </template>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="span6 offset3">
+            <div>
+              <ul>
+              <template if="state.players != null">
+              <template iterate="p in state.players">
+                <div class="player">
+                  <div class="player-name">{{p.name}}</div>
+                  <div class="player-owner dashed">{{p.owner.username}}</div>
+                  <button on-click="_joinPlayer" class="player-join" data-player-id="{{p.id}}">Join</button>
+                  <div class="player-attrs">
+                    <span class="player-attr"><i class="icon-user"></i>{{p.numActiveUsers}}</span>
+                    <span class="player-attr"><i class="icon-music"></i>{{p.sizeLimit}}</span>
+                    <!-- TODO: admin and passwords -->
+                  </div>
+            
+                  <div class="clearfix"></div>
+                </div>
+              </template>
+              </template>
+              </ul>
+            </div>
+          </div>
+        </div>
+              
       </template>
     </template>    
     
@@ -34,10 +84,48 @@
         void setup(UdjApp udj, PlayerSelectState state) {
           this.udj = udj;
           this.state = state;
+          state.getPlayers();
         }
         
         // Events
+        /**
+         * Search for a player.
+         */
+        void _searchFormSubmit(Event e) {
+          e.preventDefault();
+          InputElement searchBox = document.query("#player-select-search-input");
+          state.searchPlayer(searchBox.value);
+        }
         
+  /**
+   * Tell the [PlayerSelectState] when the user joins a player.
+   */
+  void _joinPlayer(Event e) {
+    // find the right element
+    Element target = e.target;
+    while (target.tagName != "BUTTON") {
+      target = target.parent;
+    }
+    
+    state.joinPlayer( target.dataset['playerId'] );
+
+  }
+  
+  /**
+   * Tell the [PlayerSelectState] when the user joings a player.
+   */
+  void _joinProtectedPlayer(Event e) {
+    // find the right element
+    Element target = e.target;
+    while (target.tagName != "BUTTON") {
+      target = target.parent;
+    }
+    
+    String password = js.context.window.prompt("Enter the player's password", '');
+    if (password != null) {
+      state.joinProtectedPlayer( target.dataset['playerId'], password );
+    }
+  }
       
       
       

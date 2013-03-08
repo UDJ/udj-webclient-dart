@@ -14,10 +14,23 @@ class PlayerSelectState {
   final ObservableValue<bool> hidden;
   final ObservableValue<String> errorMessage;*/
   
-  List<Player> players;
+  List<Player> _players;
+  get players => _players;
+  set players (List<Player> list) {
+    _players = list;
+    dispatch();
+  }
+  
+  String _errorMessage;
+  get errorMessage => _errorMessage;
+  set errorMessage (String msg) {
+    _errorMessage = msg;
+    dispatch();
+  }
+
+  
   Player prevPlayer;
   bool loading;
-  String errorMessage;
   
   // Constructors
   // --------------------------------------------------------------------------
@@ -26,10 +39,10 @@ class PlayerSelectState {
    * Create the [PlayerSelectState].
    */
   PlayerSelectState(this._udj):
-    players = null,
+    _players = null,
     prevPlayer = null,
     loading = false,
-    errorMessage = null;
+    _errorMessage = null;
   
   // Methods
   // --------------------------------------------------------------------------
@@ -40,8 +53,8 @@ class PlayerSelectState {
   void getPlayers(){
     //errorMessage = null;
     
-    window.navigator.geolocation.getCurrentPosition(
-      (Geoposition position){
+    Future<Geoposition> pos = window.navigator.geolocation.getCurrentPosition();
+    pos.then((Geoposition position) {
         _udj.service.getPlayersByPosition(position, (Map status) {
           if (status['success']) {
             players = _buildPlayers(status['players']);
@@ -50,8 +63,7 @@ class PlayerSelectState {
             errorMessage = "Geolocation lookup failed.  Please search for a player.";
           }
         });
-      }, 
-      (e){
+      }).catchError((e){
         errorMessage = "Geolocation lookup failed.  Please search for a player.";
       });
   }
