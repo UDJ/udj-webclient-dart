@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>PlayerSelectView</title>
+  </head>
+ 
+  <body>
+    
+  <element name="x-player-select-view" extends="div">
+    <template>
+      
+      
+      <span>I am playerSelect</span>
+      
+      
+      
+    </template>    
+    
+    
+    <script type="application/dart">
+      import 'dart:html';
+      import 'package:web_ui/web_ui.dart';
+      import '../udjlib.dart';
+      
+      class PlayerSelectView extends WebComponent {
+        UdjApp udj;
+        PlayerSelectState state;
+        
+        
+        
+        
+        void setup(UdjApp udj, PlayerSelectState state) {
+          this.udj = udj;
+          this.state = state;
+        }
+        
+        // Events
+        
+      
+      
+      
+      }
+    </script>
+  </element>
+    
+  </body>
+</html>
