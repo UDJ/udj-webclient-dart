@@ -3,16 +3,22 @@ part of udjlib;
 // PlayerSelectState
 // ============================================================================
 
-class PlayerSelectState extends UIState{
+class PlayerSelectState {
   /// The [UdjApp] (which provides access to the [UdjState]).
-  final UdjApp _udjApp;
+  final UdjApp _udj;
   
-  /// Variables to watch.
+  /*/// Variables to watch.
   final ObservableValue<List<Player>> players;
   final ObservableValue<Player> prevPlayer;
   final ObservableValue<bool> loading;
   final ObservableValue<bool> hidden;
-  final ObservableValue<String> errorMessage;
+  final ObservableValue<String> errorMessage;*/
+  
+  List<Player> players;
+  Player prevPlayer;
+  bool loading;
+  bool hidden;
+  String errorMessage;
   
   // Constructors
   // --------------------------------------------------------------------------
@@ -20,12 +26,12 @@ class PlayerSelectState extends UIState{
   /**
    * Create the [PlayerSelectState].
    */
-  PlayerSelectState(this._udjApp):super(),
-    players = new ObservableValue<List<Player>>(null),
-    prevPlayer = new ObservableValue<Player>(null),
-    loading = new ObservableValue<bool>(false),
-    hidden = new ObservableValue<bool>(true),
-    errorMessage = new ObservableValue<String>(null);
+  PlayerSelectState(this._udj):
+    players = null,
+    prevPlayer = null,
+    loading = false,
+    hidden = true,
+    errorMessage = null;
   
   // Methods
   // --------------------------------------------------------------------------
@@ -34,21 +40,21 @@ class PlayerSelectState extends UIState{
    * Get the players by geolocation.
    */
   void getPlayers(){
-    errorMessage.value = null;
+    //errorMessage = null;
     
     window.navigator.geolocation.getCurrentPosition(
       (Geoposition position){
-        _udjApp.service.getPlayersByPosition(position, (Map status) {
+        _udj.service.getPlayersByPosition(position, (Map status) {
           if (status['success']) {
-            players.value = _buildPlayers(status['players']);
+            players = _buildPlayers(status['players']);
           } else {
             // TODO: handle errors more specifically
-            errorMessage.value = "Geolocation lookup failed.  Please search for a player.";
+            errorMessage = "Geolocation lookup failed.  Please search for a player.";
           }
         });
       }, 
       (e){
-        errorMessage.value = "Geolocation lookup failed.  Please search for a player.";
+        errorMessage = "Geolocation lookup failed.  Please search for a player.";
       });
   }
 
@@ -56,13 +62,13 @@ class PlayerSelectState extends UIState{
    * Get the player by searching (for its name).
    */
   void searchPlayer(String search) {
-    _udjApp.service.getSearchPlayer(search, (Map status) {
+    _udj.service.getSearchPlayer(search, (Map status) {
       if (status['success']) {
-        players.value = _buildPlayers(status['players']);
+        players = _buildPlayers(status['players']);
       } else {
         // TODO: handle errors more specifically
         // TODO: fall back to geolocation??? At least allow the users to get back to geolocation resutls.
-        errorMessage.value = "Search lookup failed.  Please refresh the page and try again.";
+        errorMessage = "Search lookup failed.  Please refresh the page and try again.";
       }
     });
   }
@@ -86,7 +92,7 @@ class PlayerSelectState extends UIState{
     // TODO: should we be leaving then joining the same player?
     leavePlayer(playerID);
     
-    _udjApp.service.joinProtectedPlayer(playerID, password, (Map status) {
+    _udj.service.joinProtectedPlayer(playerID, password, (Map status) {
       _handleJoining(playerID, status);
     });
   }
@@ -98,7 +104,7 @@ class PlayerSelectState extends UIState{
     // TODO: should we be leaving then joining the same player?
     leavePlayer(playerID);
     
-    _udjApp.service.joinPlayer(playerID, (Map status) {
+    _udj.service.joinPlayer(playerID, (Map status) {
       _handleJoining(playerID, status);
     });
   }
@@ -108,9 +114,9 @@ class PlayerSelectState extends UIState{
    */
   void _handleJoining(String playerID, Map status) {
     if (status['success'] == true) {
-      for (Player p in players.value) {
+      for (Player p in players) {
         if (p.id == playerID) {
-          _udjApp.state.currentPlayer.value = p;
+          _udj.state.currentPlayer.value = p;
         }
       }
       
@@ -120,14 +126,14 @@ class PlayerSelectState extends UIState{
       var error = status['error'];
       
       if (error == Errors.PLAYER_FULL) {
-        errorMessage.value = "The server is full.";
+        errorMessage = "The server is full.";
         
       } else if (error == Errors.PLAYER_BANNED) {
-        errorMessage.value = "You have been banned from this server.";
+        errorMessage = "You have been banned from this server.";
         // TODO: reload the players list from the server- filter should be applied
         
       } else { // error == Errors.UNKOWN
-        errorMessage.value = "There was an error joining the server.";
+        errorMessage = "There was an error joining the server.";
         
       }
       
@@ -140,8 +146,8 @@ class PlayerSelectState extends UIState{
    */
   void leavePlayer(String playerID) {
     // TODO: should we be leaving then joining the same player?
-    if (prevPlayer.value != null) {
-      _udjApp.service.leavePlayer(prevPlayer.value.id, (Map status) {}); // empty callback since this is just a courtesy
+    if (prevPlayer != null) {
+      _udj.service.leavePlayer(prevPlayer.id, (Map status) {}); // empty callback since this is just a courtesy
     }
   }
   
