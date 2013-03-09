@@ -26,9 +26,7 @@ class UdjState {
     _currentPlayer = val;
     dispatch();
   }
-  
-  Player localPlayer;
-  
+    
   QueueSong _nowPlaying;
   get nowPlaying => _nowPlaying;
   set nowPlaying(QueueSong song) {
@@ -70,7 +68,6 @@ class UdjState {
     _playerState = null,
     playerVolume = null,
     _currentPlayer = null,
-    localPlayer = null,
     _nowPlaying = null,
     _queue = null,
     libraryView = null,
