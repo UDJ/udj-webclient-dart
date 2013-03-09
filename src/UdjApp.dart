@@ -36,6 +36,8 @@ class UdjApp {
           state.playerVolume = data['data']['volume'];
           if(!data['data']['current_song'].isEmpty){
             state.nowPlaying = new QueueSong.fromJson(data['data']['current_song']);
+          } else {
+            state.nowPlaying = null;
           }
           List queue = new List<QueueSong>();
           for(var s in data['data']['active_playlist']){
