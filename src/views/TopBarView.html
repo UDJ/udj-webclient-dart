@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>TopBarView</title>
+  </head>
+ 
+  <body>   
+    
+    <element name="x-top-bar-view" extends="div">
+      <template>
+        <template if="!hidden">
+        <div class="udj-top-bar">
+          <div class="logo-holder"><img src="../assets/img/logo.png"></div>
+          
+          <div class="search-box-holder">
+            <form on-submit="_search($event)" class="form-search main-search" id="search-form">
+              <div class="input-append">
+                <input type="text" class="span2 search-query" id="search-input" placeholder="Search" bind-value="_search">
+                <button type="submit" class="btn"><i class="icon-search"></i></button>
+              </div>
+            </form>
+          </div>
+        </div>
+        </template>
+      </template>
+      
+      <script type="application/dart">
+        import 'dart:html';
+        import 'package:web_ui/web_ui.dart';
+      
+        import '../udjlib.dart';
+
+        class TopBarView extends WebComponent {
+          UdjApp udj;
+          
+          TopBarState state;
+          var _topBarView;
+          
+          String _search = "";
+          bool hidden = true;
+          
+          void setup(UdjApp udj, TopBarState state) {
+            this.udj = udj;
+            this.state = state;
+          }
+          
+          void _submit(Event e){
+            e.preventDefault();
+            udj.state.searchQuery = _search;
+          }
+        }
+      </script>
+    </element>  
+    
+  </body>
+</html>

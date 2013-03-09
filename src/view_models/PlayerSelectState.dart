@@ -126,7 +126,7 @@ class PlayerSelectState {
     if (status['success'] == true) {
       for (Player p in players) {
         if (p.id == playerID) {
-          _udj.state.currentPlayer.value = p;
+          _udj.state.currentPlayer = p;
         }
       }
       

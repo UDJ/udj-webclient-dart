@@ -46,7 +46,7 @@
                 <div class="player">
                   <div class="player-name">{{p.name}}</div>
                   <div class="player-owner dashed">{{p.owner.username}}</div>
-                  <button on-click="_joinPlayer" class="player-join" data-player-id="{{p.id}}">Join</button>
+                  <button on-click="_joinPlayer($event)" class="player-join" data-player-id="{{p.id}}">Join</button>
                   <div class="player-attrs">
                     <span class="player-attr"><i class="icon-user"></i>{{p.numActiveUsers}}</span>
                     <span class="player-attr"><i class="icon-music"></i>{{p.sizeLimit}}</span>
@@ -69,6 +69,7 @@
     <script type="application/dart">
       import 'dart:html';
       import 'package:web_ui/web_ui.dart';
+      import 'package:js/js.dart' as js;
       import '../udjlib.dart';
       
       class PlayerSelectView extends WebComponent {
@@ -77,9 +78,6 @@
         bool hidden = true;
         
         PlayerSelectState state;
-        
-        
-        
         
         void setup(UdjApp udj, PlayerSelectState state) {
           this.udj = udj;
@@ -107,7 +105,8 @@
       target = target.parent;
     }
     
-    state.joinPlayer( target.dataset['playerId'] );
+    print(target);
+    state.joinPlayer( target.dataset['player-id'] );
 
   }
   

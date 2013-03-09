@@ -6,6 +6,7 @@
     
     <link href="LoginView.html" rel="components">
     <link href="PlayerSelectView.html" rel="components">
+    <link href="TopBarView.html" rel="components">
   </head>
  
   <body>   
@@ -14,6 +15,8 @@
     <template>
       <div id="udj-login" is="x-login-view"></div>
       <div id="udj-player-select" is="x-player-select-view"></div>
+      <div id="udj-top-bar" is="x-top-bar-view"></div>
+      
     </template>
 
     <script type="application/dart">
@@ -31,6 +34,9 @@
         PlayerSelectState _playerSelectState;
         var _playerSelectView;
         
+        TopBarState _topBarState;
+        var _topBarView;
+        
         void inserted() {
           _loginState = new LoginState(udj);
           _loginView = document.query("#udj-login").xtag;
@@ -40,13 +46,16 @@
           _playerSelectView = document.query("#udj-player-select").xtag;
           _playerSelectView.setup(udj, _playerSelectState);
           
+          _topBarState = new TopBarState(udj);
+          _topBarView = document.query("#udj-top-bar").xtag;
+          _topBarView.setup(udj, _topBarState);
+          
           // watchers to change state
           watch(() => udj.state.currentUsername, _chooseView);
           watch(() => udj.state.currentPlayer, _chooseView);
           watch(() => udj.state.creatingPlayer, _chooseView);
           
           // set initial state once the app loads
-          print(udj.state.ready);
           if (udj.state.ready) {
             _chooseView(null);
             // is this ever the case?
@@ -58,15 +67,15 @@
    void _chooseView(_) {
     // login
     if (udj.state.currentUsername == null) {
-      _playerSelectView.hidden = true;
-      /*
-      _topBar.hidden = true;
-      _sideBar.hidden = true;
-      _library.hidden = true;
-      _playerCreate.hidden = true;
-      */
-
       _loginView.hidden = false;
+      
+      
+      _playerSelectView.hidden = true;
+//      _playerCreate.hidden = true;
+
+      _topBarView.hidden = true;
+      //_sideBar.hidden = true;
+      //_library.hidden = true;
     }
     
     /*
@@ -87,32 +96,29 @@
     // choose a player
     else if (udj.state.currentPlayer == null) {
       _loginView.hidden = true;
-      /*
-      _topBar.hidden = true;
-      _sideBar.hidden = true;
-      _library.hidden = true;
-      _playerCreate.hidden = true;
-      */
       
       _playerSelectView.hidden = false;
+//      _playerCreate.hidden = true;
+      
+      _topBarView.hidden = true;
+//      _sideBar.hidden = true;
+//      _library.hidden = true;
+      
     }
-    
-    /*
-    
+        
     // use udj
     else {
-      _login.hidden = true;
-      _playerSelectState.hidden.value = true;
-      _playerCreate.hidden = true;
+      _loginView.hidden = true;
       
-      _topBar.hidden = false;
-      _sideBar.hidden = false;
-      _library.hidden = false;
+      _playerSelectView.hidden = true;
+//      _playerCreate.hidden = true;
+      
+      _topBarView.hidden = false;
+//      _sideBar.hidden = false;
+//      _library.hidden = false;
 
     }
-    
-    */
-    
+        
   }
 }
     </script>
