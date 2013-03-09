@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>SideBarView</title>
+  </head>
+ 
+  <body>   
+    
+  <element name="x-side-bar-view" extends="div">
+    <template>
+      <template if="!hidden && udj.state.currentPlayer != null">
+      <div class="player">
+        <div class="player-current">
+          <span class="player-name">{{udj.state.currentPlayer.name}}</span>
+          <!-- for the 'change player' commit'
+          <button id="player-change" on-click="_changePlayer($event)" class="player-change btn"><i class="icon-caret-down"></i></button>
+          -->
+        </div>
+        <div class="player-user-count"><i class="icon-user"></i>{{udj.state.currentPlayer.numActiveUsers}}</div>
+        <div class="player-queue-count"><i class="icon-music"></i>
+          <template if="udj.state.queue != null">
+            {{udj.state.queue.length}}
+          </template>
+        </div>
+      </div>
+      
+      <div class="now-playing-box">
+        <div class="now-playing-status">
+          <template if="udj.state.playerState == 'Playing'">
+            <i class="icon-play"></i>
+          </template>
+          <template if="udj.state.playerState == 'Pause'">
+            <i class="icon-pause"></i>
+          </template>
+        </div>
+        
+        <template if="udj.state.nowPlaying != null">
+          <div class="now-playing-song-title">{{udj.state.nowPlaying.title}}</div>
+          <span class="now-playing-song-artist">{{udj.state.nowPlaying.artist}}</span>
+          <span class="now-playing-song-album">{{udj.state.nowPlaying.album}}</span>
+        </template>
+      </div>
+      
+      <!-- for the 'list song queue' commit
+      <template if="udj.state.queue != null">
+        <template iterate="song in udj.state.queue">
+          <div is="x-song-view"></div>
+        </template>
+      </template>
+      -->
+      
+      </template>
+    </template>
+    
+    <script type="application/dart">
+      import 'dart:html';
+      import 'package:web_ui/web_ui.dart';
+      import '../udjlib.dart';
+
+      class SideBarView extends WebComponent {
+        UdjApp udj;
+        SideBarState state;
+        Player player; // a reference to udj.state.currentPlayer for clearer code
+        List<QueueSong> queue; // a reference to udj.state.queue for clearer code
+        
+        bool hidden = true;
+        
+        void setup(UdjApp udj, SideBarState state) {
+          this.udj = udj;
+          this.state = state;
+        }
+                
+        // Events
+        // ------------------------------------------------------------------
+        void _changePlayer(Event e) {
+          udj.state.currentPlayer = null;
+        }
+        
+      }
+    </script>
+    
+  </element>
+    
+  </body>
+</html>

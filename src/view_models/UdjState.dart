@@ -29,9 +29,19 @@ class UdjState {
   
   Player localPlayer;
   
-  QueueSong nowPlaying;
+  QueueSong _nowPlaying;
+  get nowPlaying => _nowPlaying;
+  set nowPlaying(QueueSong song) {
+    _nowPlaying = song;
+    dispatch();
+  }
   
-  List<QueueSong> queue;
+  List<QueueSong> _queue;
+  get queue => _queue;
+  set queue(List<QueueSong> val) {
+    _queue = val;
+    dispatch();
+  }
   
   String libraryView;
   
@@ -61,8 +71,8 @@ class UdjState {
     playerVolume = null,
     _currentPlayer = null,
     localPlayer = null,
-    nowPlaying = null,
-    queue = null,
+    _nowPlaying = null,
+    _queue = null,
     libraryView = null,
     searchQuery = null,
     librarySongs = null,
