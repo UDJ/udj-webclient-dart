@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>PlaylistSongView</title>
+  </head>
+ 
+  <body>   
+    
+  <element name="x-playlist-song-view" extends="div">
+    <template>
+        <div class="song-vote" data-song-id="{{song.id}}">
+          <div class="song-vote-up"><button on-click="_upvote($event)"><i class="icon-chevron-up"></i></button></div>
+          <div class="song-vote-count">
+            <span class="song-vote-count-up">+{{song.upvoters.length}}</span> / <span class="song-vote-count-down">-{{song.downvoters.length}}</span>
+          </div>
+          <div class="song-vote-down"><button on-click="_downvote($event)"><i class="icon-chevron-down"></i></button></div>
+        </div>
+        
+      <div class="song-info">
+        <div class="song-title">{{song.title}}</div>
+        <span class="song-artist">{{song.artist}}</span> - <span class="song-album">{{song.album}}</span>
+      </div>
+    </template>
+    
+    <script type="application/dart">
+      import 'dart:html';
+      import 'package:web_ui/web_ui.dart';
+      import '../udjlib.dart';
+
+      class PlaylistSongView extends WebComponent {
+        UdjApp udj;
+        QueueSong song;
+        
+        // Events
+        // ------------------------------------------------------------------
+        void _downvote(Event e) {
+          Element target = e.target;
+          while(!target.classes.contains('song-vote')){
+            target = target.parent;
+          }
+          String id = target.dataset['song-id'];
+          udj.state.voteSong('downvote',id);
+        }
+        
+        void _upvote(Event e) {
+          Element target = e.target;
+          while(!target.classes.contains('song-vote')){
+            target = target.parent;
+          }
+          String id = target.dataset['song-id'];
+          udj.state.voteSong('upvote',id);
+        }
+      }
+    </script>
+    
+  </element>
+    
+  </body>
+</html>
