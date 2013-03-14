@@ -4,7 +4,7 @@ part of udjlib;
 class LibraryState {
   final UdjApp _udj; 
  
-  List _results;
+  List<Song> _results;
   
   // Getter + Setter
   get results => _results;
@@ -12,6 +12,8 @@ class LibraryState {
     _results = l;
     dispatch();
   }
+  
+  
   
   LibraryState(this._udj):
     _results = null {

@@ -10,8 +10,16 @@
       <template>
         <template if="!hidden">
           
+          <div class="row">
+            <div class="span6 offset3">
+              
+              [LIBRARY]
+              
+            </div>
+          </div>
           
-          HEY I"M A LIBRARY
+          
+        
         </template>
       </template>
           
@@ -20,27 +28,29 @@
       <script type="application/dart">
         import 'dart:html';
         import 'package:web_ui/web_ui.dart';
+        import 'package:js/js.dart' as js;
         import '../udjlib.dart';
   
-          class LibraryView extends WebComponent {
-            UdjApp udj;
-            LibraryState state;
-            bool hidden = true;
-          
-          
-            void setup(UdjApp udj, LibraryState state) {
-              this.udj = udj;
-              this.state = state;
-            }
+  
+        class LibraryView extends WebComponent {
+          UdjApp udj;
+          LibraryState state;
+          bool hidden = true;
+                   
+          void setup(UdjApp udj, LibraryState state) {
+            this.udj = udj;
+            this.state = state;
+            this.state.setLibraryView();
+          }
             
-            // Events
-            // ------------------------------------------------------------------
+          // Events
+          // ------------------------------------------------------------------
       
-            void _submit(Event e){
-              e.preventDefault();
-              //state.login(_username, _password);
-            }
-          } // End of class definition
+          void _submit(Event e){
+            e.preventDefault();
+            //state.login(_username, _password);
+          }
+        } // End of class definition
         
       </script>    
         
