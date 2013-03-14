@@ -24,7 +24,7 @@ part 'view_models/UdjState.dart';
 part 'view_models/LoginState.dart';
 //part 'view_models/PlayerCreateState.dart';
 part 'view_models/PlayerSelectState.dart';
-//part 'view_models/LibraryState.dart';
+part 'view_models/LibraryState.dart';
 part 'view_models/TopBarState.dart';
 part 'view_models/SideBarState.dart';
 //part 'view_models/AdminPlayerState.dart';
