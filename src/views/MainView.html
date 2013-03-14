@@ -7,6 +7,7 @@
     <link href="LoginView.html" rel="components">
     <link href="PlayerSelectView.html" rel="components">
     <link href="TopBarView.html" rel="components">
+    <link href="LibraryView.html" rel="components">
     <link href="SideBarView.html" rel="components">
   </head>
  
@@ -17,6 +18,7 @@
       <div id="udj-login" is="x-login-view"></div>
       <div id="udj-player-select" is="x-player-select-view"></div>
       <div id="udj-top-bar" is="x-top-bar-view"></div>
+      <div id="udj-library" is="x-library-view"></div>
       <div id="udj-side-bar" is="x-side-bar-view"></div>
     </template>
 
@@ -38,6 +40,9 @@
         TopBarState _topBarState;
         var _topBarView;
         
+        LibraryState _libraryState;
+        var _libraryView;
+        
         SideBarState _sideBarState;
         var _sideBarView;
         
@@ -53,6 +58,10 @@
           _topBarState = new TopBarState(udj);
           _topBarView = document.query("#udj-top-bar").xtag;
           _topBarView.setup(udj, _topBarState);
+          
+          _libraryState = new LibraryState(udj);
+          _libraryView = document.query("#udj-library").xtag;
+          _libraryView.setup(udj, _libraryState);
           
           _sideBarState = new SideBarState(udj);
           _sideBarView = document.query("#udj-side-bar").xtag;
@@ -83,7 +92,7 @@
 
       _topBarView.hidden = true;
       _sideBarView.hidden = true;
-      //_library.hidden = true;
+      _libraryView.hidden = true;
     }
     
     /*
@@ -110,7 +119,7 @@
       
       _topBarView.hidden = true;
       _sideBarView.hidden = true;
-//      _library.hidden = true;
+      _libraryView.hidden = true;
       
     }
         
@@ -123,7 +132,7 @@
       
       _topBarView.hidden = false;
       _sideBarView.hidden = false;
-//      _library.hidden = false;
+      _libraryView.hidden = false;
 
     }
         
