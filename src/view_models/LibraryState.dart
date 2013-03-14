@@ -1,24 +1,31 @@
 part of udjlib;
 
 
-class LibraryState extends UIState {
-  final UdjApp _udjApp; 
+class LibraryState {
+  final UdjApp _udj; 
  
-  final ObservableValue<List> results;
+  List _results;
   
-  LibraryState(this._udjApp):super(),
-    results = new ObservableValue<List>(null){
+  // Getter + Setter
+  get results => _results;
+  set results (List l) {
+    _results = l;
+    dispatch();
+  }
+  
+  LibraryState(this._udj):
+    _results = null {
     
   }
   
   void setLibraryView(){
-    if(_udjApp.state.currentPlayer.value != null){
-      if(_udjApp.state.libraryView.value == "Random"){
-        _udjApp.service.getRandomLibrary(_udjApp.state.currentPlayer.value.id, _processLibraryResults); 
-      }else if(_udjApp.state.libraryView.value == "Recent"){
-        _udjApp.service.getRecentLibrary(_udjApp.state.currentPlayer.value.id, _processLibraryResults);
-      }else if(_udjApp.state.libraryView.value == "Search"){
-        _udjApp.service.getSearchLibrary(_udjApp.state.currentPlayer.value.id,_udjApp.state.searchQuery.value,
+    if(_udj.state.currentPlayer != null){
+      if(_udj.state.libraryView == "Random"){
+        _udj.service.getRandomLibrary(_udj.state.currentPlayer.value.id, _processLibraryResults); 
+      }else if(_udj.state.libraryView == "Recent"){
+        _udj.service.getRecentLibrary(_udj.state.currentPlayer.value.id, _processLibraryResults);
+      }else if(_udj.state.libraryView == "Search"){
+        _udj.service.getSearchLibrary(_udj.state.currentPlayer.value.id,_udj.state.searchQuery,
             _processLibraryResults);
       }
     }
@@ -30,6 +37,6 @@ class LibraryState extends UIState {
       songs.add(new Song.fromJson(s));
     }
     
-    results.value = songs;
+    results = songs;
   }
 }

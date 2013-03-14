@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>LibraryView</title>
+  </head>
+ 
+  <body>
+    <element name="x-library-view" extends="div">
+      <template>
+        <template if="!hidden">
+          
+          
+          HEY I"M A LIBRARY
+        </template>
+      </template>
+          
+          
+
+      <script type="application/dart">
+        import 'dart:html';
+        import 'package:web_ui/web_ui.dart';
+        import '../udjlib.dart';
+  
+          class LibraryView extends WebComponent {
+            UdjApp udj;
+            LibraryState state;
+            bool hidden = true;
+          
+          
+            void setup(UdjApp udj, LibraryState state) {
+              this.udj = udj;
+              this.state = state;
+            }
+            
+            // Events
+            // ------------------------------------------------------------------
+      
+            void _submit(Event e){
+              e.preventDefault();
+              //state.login(_username, _password);
+            }
+          } // End of class definition
+        
+      </script>    
+        
+    </element>
+  </body>
+</html>
