@@ -29,7 +29,7 @@ class PollService {
    * requires a callback with that parameter.
    */
   void start(_){
-    _timer = new Timer.repeating(new Duration(milliseconds: Constants.POLL_INTERVAL), _poll);
+    _timer = new Timer.periodic(new Duration(milliseconds: Constants.POLL_INTERVAL), _poll);
     _poll(null);
   }
   

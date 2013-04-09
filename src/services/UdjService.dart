@@ -33,7 +33,7 @@ class UdjService {
    */
   void login(String username, String password, Function callback){
     HttpRequest request = new HttpRequest();
-    request.open("POST", '${Constants.API_URL}/auth', true);
+    request.open("POST", '${Constants.API_URL}/auth');
     String data;
     data = RequestHelper.encodeMap({'username':username,'password':password});
     request.setRequestHeader('Content-type', 'application/x-www-form-urlencode');
@@ -219,7 +219,7 @@ class UdjService {
   void joinProtectedPlayer(String playerID, String password,  Function callback) {
     String url = '/players/$playerID/users/user';
     String contentType = 'application/x-www-form-urlencode';
-    String query = stringify( {} );
+    String query = JSON.stringify( {} );
     
     // copied from authPutRequest, except *
     HttpRequest request;
@@ -381,7 +381,7 @@ class UdjService {
    * A PUT request with auth token and text/json Content-type.
    */
   void authPutRequestJson(String url, Map data, Function callback) {
-    authPutRequest(url, stringify(data), callback, 'text/json');
+    authPutRequest(url, JSON.stringify(data), callback, 'text/json');
   }
 
   /**

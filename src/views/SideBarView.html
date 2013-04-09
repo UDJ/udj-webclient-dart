@@ -9,7 +9,7 @@
  
   <body>   
     
-  <element name="x-side-bar-view" extends="div">
+  <element name="SideBarView" extends="div">
     <template>
       <template if="!hidden && udj.state.currentPlayer != null">
       <div class="player">
@@ -46,7 +46,7 @@
       
       <template if="udj.state.queue != null">
         <template iterate="song in udj.state.queue">
-          <div is="x-playlist-song-view" song="{{song}}" udj="{{udj}}"></div>
+          <div is="PlaylistSongView" song="{{song}}" udj="{{udj}}"></div>
         </template>
       </template>
       
