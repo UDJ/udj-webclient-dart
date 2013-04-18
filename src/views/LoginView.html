@@ -58,6 +58,7 @@
         void _submit(Event e){
           e.preventDefault();
           state.login(_username, _password);
+          _password = "";
         }
       }
     </script>
