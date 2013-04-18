@@ -296,9 +296,12 @@ class UdjService {
     });
   }
   
+  // Library Interaction
+  // --------------------------------------------------------------------------
+  
   void getSearchLibrary(String playerId, String query, Function callback){
     authGetRequest('/players/${playerId}/available_music',
-        {'max_randoms':'50','query':query}, (HttpRequest request){
+        {'max_results':'50','query':query}, (HttpRequest request){
           List data = JSON.parse(request.responseText);
           callback({'success':true,'data':data});
         });
@@ -306,9 +309,9 @@ class UdjService {
   
   void getRecentLibrary(String playerId, Function callback){
     authGetRequest('/players/${playerId}/recently_played',
-        {'max_randoms':'50'}, (HttpRequest request){
-          List data = JSON.parse(request.responseText);
-          data = data.map((i) => i['song']);
+        {'max_songs':'50'}, (HttpRequest request){
+          List data = JSON.parse(request.responseText + '\n');
+          data = data.map((i) => i['song']).toList();
           callback({'success':true,'data':data});
         });
   }
