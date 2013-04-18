@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>PlayerCreateView</title>
+  </head>
+ 
+  <body>
+    
+  <element name="PlayerCreateView" extends="div">
+    <template>
+      <template if="!hidden">
+        <div class="row">
+          <div class="span6 offset3">
+            <h3>Create Player</h3>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="span4 offset4 player-create-wrap">
+            
+            <form id="player-create-form" class="well player-create-form">
+              <h3>Create Your Player</h3>
+        
+              <div>
+                <input id="player-create-name" placeholder="Player Name">
+              </div>
+              <div>
+                <input id="player-create-zip" placeholder="Postal Code">
+              </div>
+              <div>
+                <input id="player-create-country" placeholder="Country">
+              </div>
+        
+              <button type="submit" class="btn">Create!</button>
+            </form>
+            
+            
+            
+          </div>
+        </div>
+    
+      </template>
+    </template>    
+    
+    
+    <script type="application/dart">
+      import 'dart:html';
+      import 'package:web_ui/web_ui.dart';
+      import 'package:js/js.dart' as js;
+      import '../udjlib.dart';
+      
+      
+// Class Library View declaration
+//------------------------------------------------------------------------
+      class PlayerCreateView extends WebComponent {
+        UdjApp udj;
+        
+        bool hidden = true;
+        
+        PlayerCreateState state;
+        
+        void setup(UdjApp udj, PlayerCreateState state) {
+          this.udj = udj;
+          this.state = state;
+        }
+        
+        // Events
+
+      } // End of class
+      
+    </script>
+  </element>
+    
+  </body>
+</html>
