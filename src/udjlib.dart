@@ -3,7 +3,7 @@ import 'dart:async';
 import 'dart:html';
 import 'dart:isolate';
 import 'dart:json' as JSON;
-import 'dart:uri';
+//import 'dart:uri'; No longer a valid library. New class called Uri made.
 
 import 'package:js/js.dart' as js;
 import 'package:web_ui/web_ui.dart';
