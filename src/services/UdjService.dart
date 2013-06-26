@@ -29,9 +29,33 @@ class UdjService {
   // --------------------------------------------------------------------------
   
   /**
-   * Login the user using a [username] and [password]
+   * Attempt at a login function with API 0_7
    */
   void login(String username, String password, Function callback){
+    HttpRequest request = new HttpRequest();
+    request.open("POST", '${Constants.API_URL}/auth');
+    
+    String jsonData = '{"username" : \"$username\", "password" : \"$password\"}';
+    
+    request.setRequestHeader('Content-type', 'text/json');
+    request.onLoadEnd.listen((e){
+      if(request.status==200){
+        var data = JSON.parse(request.responseText);
+        var token = data['ticket_hash'];
+        var user_id = data['user_id'];
+        session = new Session(token, user_id, username);
+        callback(true);
+      }else{
+        callback(false);
+      }
+    });
+    request.send(jsonData);
+  }
+  
+  /**
+   * Login the user using a [username] and [password] (0.6 API)
+   */
+  void loginOBSOLETE(String username, String password, Function callback){
     HttpRequest request = new HttpRequest();
     request.open("POST", '${Constants.API_URL}/auth');
     String data;
@@ -148,7 +172,7 @@ class UdjService {
    */
   void setPlayerVolume(String playerID, int level, Function callback) {
     // TODO: precondition- 0 <= level <= 10
-    authPostRequest("/udj/0_6/players/$playerID/volume", {"volume": level}, (HttpRequest req) {
+    authPostRequest("/udj/0_7/players/$playerID/volume", {"volume": level}, (HttpRequest req) {
       if (req.status == 200) {
         callback( {'success': true} );
       } else {
@@ -169,7 +193,7 @@ class UdjService {
    * Kick a user from the given player.
    */
   void kickUser(String playerID, String userID, Function callback) {
-    authPutRequestJson('/udj/0_6/players/$playerID/kicked_users/$userID', {}, (HttpRequest req) {
+    authPutRequestJson('/udj/0_7/players/$playerID/kicked_users/$userID', {}, (HttpRequest req) {
       if (req.status == 200) {
         callback({'success': true});
       } else {
@@ -187,7 +211,7 @@ class UdjService {
    * Demote an admin on the given player.
    */
   demoteAdmin(String playerID, String userID, Function callback) {
-     authDeleteRequest('/udj/0_6/players/$playerID/admins/$userID', {}, (HttpRequest req) {
+     authDeleteRequest('/udj/0_7/players/$playerID/admins/$userID', {}, (HttpRequest req) {
        if (req.status == 200) {
          callback({'success': true});
        } else {
@@ -285,7 +309,7 @@ class UdjService {
    * List the users in a given player.
    */
   void getCurrentUsers(String playerID, Function callback) {
-    authGetRequest('/udj/0_6/players/$playerID/users', {}, (HttpRequest req) {
+    authGetRequest('/udj/0_7/players/$playerID/users', {}, (HttpRequest req) {
       if (req.status == 200) {
         callback({'success': true, 'users': JSON.parse(req.responseText)});
       } else {
