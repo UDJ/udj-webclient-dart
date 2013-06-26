@@ -27,16 +27,13 @@ class UdjService {
   
   // Authentication
   // --------------------------------------------------------------------------
-  
   /**
-   * Attempt at a login function with API 0_7
+   * Login the user using a [username] and [password] (0.7 API)
    */
   void login(String username, String password, Function callback){
     HttpRequest request = new HttpRequest();
     request.open("POST", '${Constants.API_URL}/auth');
-    
     String jsonData = '{"username" : \"$username\", "password" : \"$password\"}';
-    
     request.setRequestHeader('Content-type', 'text/json');
     request.onLoadEnd.listen((e){
       if(request.status==200){
@@ -50,29 +47,6 @@ class UdjService {
       }
     });
     request.send(jsonData);
-  }
-  
-  /**
-   * Login the user using a [username] and [password] (0.6 API)
-   */
-  void loginOBSOLETE(String username, String password, Function callback){
-    HttpRequest request = new HttpRequest();
-    request.open("POST", '${Constants.API_URL}/auth');
-    String data;
-    data = RequestHelper.encodeMap({'username':username,'password':password});
-    request.setRequestHeader('Content-type', 'application/x-www-form-urlencode');
-    request.onLoadEnd.listen((e){
-      if(request.status==200){
-        var data = JSON.parse(request.responseText);
-        var token = data['ticket_hash'];
-        var user_id = data['user_id'];
-        session = new Session(token, user_id, username);
-        callback(true);
-      }else{
-        callback(false);
-      }
-    });
-    request.send(data);
   }
   
   // Player Search
