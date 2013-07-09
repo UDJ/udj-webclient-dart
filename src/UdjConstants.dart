@@ -29,6 +29,7 @@ class Errors{
   static const String PLAYER_BANNED = "player-banned";
   static const String PLAYER_FULL = "player-full";
   static const String PLAYER_PROTECTED = "player-protected";
+  static const String PLAYER_INACTIVE = "player-inactive";
   
   // leaving a player
   static const String NOT_IN_PLAYER = "not-in-player";
