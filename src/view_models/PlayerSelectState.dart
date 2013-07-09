@@ -142,6 +142,9 @@ class PlayerSelectState {
         errorMessage = "You have been banned from this server.";
         // TODO: reload the players list from the server- filter should be applied
         
+      } else if (error == Errors.PLAYER_INACTIVE) {
+        errorMessage = "This player is inactive.";
+        
       } else { // error == Errors.UNKOWN
         errorMessage = "There was an error joining the server.";
         
