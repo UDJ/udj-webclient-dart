@@ -239,7 +239,7 @@ class UdjService {
    * Parse the joining HttpRequest.
    */
   void _handleJoining(HttpRequest req, Function callback) {
-    // 201 is success, 400 is you own it
+    // 201 is success, 400 is you own it    
     if (req.status == 201 || req.status == 400) {
       callback( {'success': true} );
       
@@ -251,6 +251,8 @@ class UdjService {
         error = Errors.PLAYER_FULL;
       } else if (req.status == 403 && req.getResponseHeader('X-Udj-Forbidden-Reason') == "banned") {
         error = Errors.PLAYER_BANNED;
+      } else if (req.status == 404 && req.getResponseHeader('X-Udj-Missing-Reason') == "inactive") {
+        error = Errors.PLAYER_INACTIVE;
       }
       
       callback({'success': false, 'error': error});
