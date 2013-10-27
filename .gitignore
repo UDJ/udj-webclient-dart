@@ -2,3 +2,4 @@
 packages/
 .project
 .sass-cache/
+pubspec.lock
